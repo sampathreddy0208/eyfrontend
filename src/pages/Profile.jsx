@@ -1,59 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react';
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    bio: 'Food enthusiast and home cook',
-    avatar: '/ban.jpg'
-  })
+  // Placeholder for user data
+  const user = {
+    name: localStorage.getItem("username"),
+    recipes: [
+      { id: 1, title: 'Pancakes' },
+      { id: 2, title: 'Spaghetti Bolognese' },
+      { id: 3, title: 'Chocolate Cake' }
+    ]
+  };
 
   return (
-    <div className="container my-5">
-      <div className="row">
-        <div className="col-md-4">
-          <div className="card">
-            <img src={user.avatar} className="card-img-top" alt="Profile" />
-            <div className="card-body">
-              <h5 className="card-title">{user.name}</h5>
-              <p className="card-text">{user.bio}</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-8">
-          <h2>Profile Information</h2>
-          <div className="mb-3">
-            <label className="form-label">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={user.name}
-              onChange={(e) => setUser({...user, name: e.target.value})}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              value={user.email}
-              disabled
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Bio</label>
-            <textarea
-              className="form-control"
-              rows="5"
-              value={user.bio}
-              onChange={(e) => setUser({...user, bio: e.target.value})}
-            ></textarea>
-          </div>
-          <button className="btn btn-primary">Update Profile</button>
-        </div>
-      </div>
+    <div className="container mt-5">
+      <h1 className="text-center">Profile</h1>
+      <h2 className="text-center">Welcome, {user.name}!</h2>
+      <h3>Your Recipes:</h3>
+      <ul>
+        {user.recipes.length > 0 ? (
+          user.recipes.map(recipe => (
+            <li key={recipe.id}>{recipe.title}</li>
+          ))
+        ) : (
+          <li>No recipes added yet.</li>
+        )}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

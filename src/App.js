@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import './App.css'; // Importing the CSS file for global styles
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import Recipes from "./pages/Recipes";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import AddRecipe from "./pages/AddRecipe";
@@ -28,8 +30,9 @@ function App() {
     <Router>
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/recipes" element={<Recipes />} />
         <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/home" element={<Home />} />
         

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
@@ -9,75 +10,75 @@ const Register = () => {
     confirmPassword: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Registration form submitted:', formData);
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      alert("Registration successful!");
+      window.location.href = "/login";
+    } else {
+      alert("Registration failed. Please try again.");
+    }
   };
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-4">
-          <div className="card mt-5">
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">Register</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="username" className="form-label">Username</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    value={formData.username}
-                    onChange={(e) => setFormData({...formData, username: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email address</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary w-100 mb-3">Register</button>
-                <div className="text-center">
-                  <Link to="/login" className="text-decoration-none">
-                    Already have an account? Login here
-                  </Link>
-                </div>
-              </form>
-            </div>
-          </div>
+    <div className="container mt-5">
+      <h1 className="text-center">Register</h1>
+      <form onSubmit={handleSubmit} className="mt-4 border p-4 rounded bg-light" style={{ maxWidth: '400px', margin: '0 auto' }}>
+        <div className="mb-3">
+          <label className="form-label">Username:</label>
+          <input
+            type="text"
+            className="form-control"
+            style={{ width: '100%' }} // Adjusted width to fill container
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            required
+          />
         </div>
-      </div>
+        <div className="mb-3">
+          <label className="form-label">Email:</label>
+          <input
+            type="email"
+            className="form-control"
+            style={{ width: '100%' }} // Adjusted width to fill container
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            style={{ width: '100%' }} // Adjusted width to fill container
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Confirm Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            style={{ width: '100%' }} // Adjusted width to fill container
+            value={formData.confirmPassword}
+            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary" disabled={formData.password !== formData.confirmPassword}>Register</button>
+        <Link to="/login" className="d-block mt-3 text-center">Already have an account? Login here</Link>
+      </form>
     </div>
   );
 };
